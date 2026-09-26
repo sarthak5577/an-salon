@@ -10,7 +10,7 @@
     "create-manager": "node scripts/create-manager.js"
   },
   "engines": {
-    "node": ">=22.5.0"
+    "node": ">=20.9.0"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",
