@@ -108,7 +108,7 @@ function Hero({ user }: { user: User }) {
           <div className="hero-content">
             <div className="hero-badge-pill">
               <span className="hero-badge-dot" />
-              Kharadi, Pune · अन सैलून
+              Kharadi, Pune · Luxury Unisex Salon
             </div>
             <h1 className="hero-h1">
               Your Premier<br />
@@ -416,7 +416,7 @@ function AboutSection() {
             <span className="section-eyebrow">About AN Salon</span>
             <h2 className="section-title">Where Beauty Meets Inclusivity</h2>
             <p style={{ color: "var(--text-muted)", lineHeight: 1.8, marginBottom: "1rem" }}>
-              Welcome to <strong>AN Salon (अन सैलून)</strong>, Kharadi's premier luxury unisex salon. We believe everyone deserves to feel radiant, confident, and celebrated in their own skin.
+              Welcome to <strong>AN Salon</strong>, Kharadi's premier luxury unisex salon. We believe everyone deserves to feel radiant, confident, and celebrated in their own skin.
             </p>
             <p style={{ color: "var(--text-muted)", lineHeight: 1.8, marginBottom: "1.25rem" }}>
               From bespoke precision haircuts and transformative keratin therapies to glowing bridal makeovers, our certified artists blend modern aesthetics with gentle, high-grade products.
@@ -953,7 +953,7 @@ function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} AN Salon · अन सैलून, Kharadi, Pune</span>
+          <span>© {new Date().getFullYear()} AN Salon, Kharadi, Pune</span>
           <div style={{ display: "flex", gap: "1rem" }}>
             <a href="#privacy" style={{ color: "rgba(255,255,255,.5)", fontSize: ".8rem" }}>Privacy</a>
             <Link href="/manager/login" style={{ color: "rgba(255,255,255,.3)", fontSize: ".8rem" }}>Staff</Link>

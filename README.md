@@ -1,6 +1,6 @@
-# AN Salon – अन सैलून
+# AN Salon
 
-Full-stack website for AN Salon, a beauty parlour in Kharadi, Pune.
+Full-stack website for AN Salon, a luxury unisex beauty parlour in Kharadi, Pune.
 
 **Stack:** Next.js 15 (App Router) · TypeScript · better-sqlite3 · bcryptjs · jose · Vanilla CSS
 

@@ -4,14 +4,14 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "AN Salon | अन सैलून – Kharadi, Pune",
+    default: "AN Salon – Kharadi, Pune",
     template: "%s | AN Salon – Kharadi, Pune",
   },
   description:
-    "AN Salon (अन सैलून) is a luxury unisex beauty parlour in Kharadi, Pune. Book appointments online for hair, beauty, skin care, makeup, nail care, and wellness services.",
+    "AN Salon is a luxury unisex beauty parlour in Kharadi, Pune. Book appointments online for hair, beauty, skin care, makeup, nail care, and wellness services.",
   keywords: ["AN Salon", "salon Kharadi Pune", "beauty parlour Pune", "hair salon Pune", "book salon appointment"],
   openGraph: {
-    title: "AN Salon | अन सैलून – Kharadi, Pune",
+    title: "AN Salon – Kharadi, Pune",
     description: "Luxury beauty & wellness. Book appointments online.",
     url: "https://www.ansalon.in",
     siteName: "AN Salon",
@@ -37,7 +37,6 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "BeautySalon",
               name: "AN Salon",
-              alternateName: "अन सैलून",
               url: "https://www.ansalon.in",
               telephone: "+918064526928",
               address: {
