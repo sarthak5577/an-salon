@@ -33,9 +33,25 @@ export default function SignInPage() {
           <p className="auth-subtitle">Your beauty appointment manager</p>
         </div>
 
-        <div className="tabs" role="tablist">
-          <button id="tab-signin" role="tab" aria-selected={tab === "signin"} className={`tab-btn${tab === "signin" ? " active" : ""}`} onClick={() => { setTab("signin"); setError(""); }}>Sign In</button>
-          <button id="tab-register" role="tab" aria-selected={tab === "register"} className={`tab-btn${tab === "register" ? " active" : ""}`} onClick={() => { setTab("register"); setError(""); }}>Register</button>
+        <div className="booking-tabs-nav" role="tablist">
+          <button
+            id="tab-signin"
+            role="tab"
+            aria-selected={tab === "signin"}
+            className={`booking-tab-pill ${tab === "signin" ? "active-signin" : ""}`}
+            onClick={() => { setTab("signin"); setError(""); }}
+          >
+            🔑 Sign In
+          </button>
+          <button
+            id="tab-register"
+            role="tab"
+            aria-selected={tab === "register"}
+            className={`booking-tab-pill ${tab === "register" ? "active-register" : ""}`}
+            onClick={() => { setTab("register"); setError(""); }}
+          >
+            ✨ Register
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} noValidate style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>

@@ -102,35 +102,67 @@ function Nav({ user, onLogout }: { user: User; onLogout: () => void }) {
 
 function Hero({ user }: { user: User }) {
   return (
-    <section className="hero" id="home">
-      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "800px", margin: "0 auto" }}>
-        <p className="hero-eyebrow">✦ Kharadi, Pune · अन सैलून</p>
-        <h1 className="hero-title">
-          Your Premier<br /><em>Beauty Destination</em>
-        </h1>
-        <p className="hero-subtitle">
-          Luxury hair, beauty, and wellness services for everyone — in a welcoming, inclusive space in the heart of Kharadi, Pune.
-        </p>
-        <div className="hero-actions">
-          <a href="#booking" className="btn btn-gold btn-lg">
-            Book an Appointment
-          </a>
-          <a href="#services" className="btn btn-outline-gold btn-lg">
-            View Services
-          </a>
-        </div>
-        <div className="hero-meta">
-          <div className="hero-meta-item">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-            Kharadi, Pune
+    <section className="hero-split" id="home">
+      <div className="container">
+        <div className="hero-grid">
+          <div className="hero-content">
+            <div className="hero-badge-pill">
+              <span className="hero-badge-dot" />
+              Kharadi, Pune · अन सैलून
+            </div>
+            <h1 className="hero-h1">
+              Your Premier<br />
+              <em>Beauty Destination</em>
+            </h1>
+            <p className="hero-desc">
+              Experience the pinnacle of hair artistry, restorative skin therapy, and luxury bridal makeovers in a warm, welcoming, and inclusive sanctuary.
+            </p>
+            <div className="hero-actions" style={{ justifyContent: "flex-start" }}>
+              <a href="#booking" className="btn btn-gold btn-lg">
+                Book an Appointment
+              </a>
+              <a href="#services" className="btn btn-outline-gold btn-lg">
+                Explore Services
+              </a>
+            </div>
+
+            <div className="hero-stats-row">
+              <div className="hero-stat-item">
+                <span className="hero-stat-num">4.9 ★</span>
+                <span className="hero-stat-lbl">Customer Rating</span>
+              </div>
+              <div className="hero-stat-item">
+                <span className="hero-stat-num">5,000+</span>
+                <span className="hero-stat-lbl">Happy Clients</span>
+              </div>
+              <div className="hero-stat-item">
+                <span className="hero-stat-num">100%</span>
+                <span className="hero-stat-lbl">Certified Stylists</span>
+              </div>
+            </div>
           </div>
-          <div className="hero-meta-item">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-            080 6452 6928
-          </div>
-          <div className="hero-meta-item">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-            Appointments & Walk-ins
+
+          <div className="hero-visual-wrap">
+            <div className="hero-image-card">
+              <img
+                src="/images/hero-salon.jpg"
+                alt="AN Salon interior in Kharadi Pune"
+                width={600}
+                height={450}
+              />
+              <div className="hero-float-badge">
+                <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
+                  <span style={{ fontSize: "1.2rem" }}>📍</span>
+                  <div>
+                    <div style={{ fontSize: ".85rem", fontWeight: 700, color: "#fff" }}>Global High Street, Kharadi</div>
+                    <div style={{ fontSize: ".75rem", color: "var(--gold-light)" }}>Below Malaka Spice</div>
+                  </div>
+                </div>
+                <div style={{ fontSize: ".75rem", fontWeight: 700, color: "#34D399", background: "rgba(52, 211, 153, 0.15)", padding: ".3rem .6rem", borderRadius: "99px", whiteSpace: "nowrap" }}>
+                  ● Open · Closes 9 PM
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -138,58 +170,235 @@ function Hero({ user }: { user: User }) {
   );
 }
 
-// ── Services ────────────────────────────────────────────────────────────────
+// ── Category Highlights Showcase ──────────────────────────────────────────
 
-function ServicesSection({ services }: { services: Service[] }) {
-  const categories = [...new Set(services.map((s) => s.category))];
+function CategoryShowcaseSection({ onSelectCategory }: { onSelectCategory: (cat: string) => void }) {
+  const highlights = [
+    {
+      category: "Hair Styling & Dressing",
+      title: "Cuts & Blow Dry",
+      desc: "Precision haircuts, volumizing blow dries, and bespoke styling.",
+      image: "/images/service-hair.jpg",
+      tag: "Trending",
+      tagColor: "#D4AF37",
+      filterKey: "Hair Styling & Dressing",
+    },
+    {
+      category: "Beauty & Skin Care",
+      title: "Facials & Glow Therapy",
+      desc: "Rejuvenating masks and deep cleansing for radiant skin.",
+      image: "/images/service-facial.jpg",
+      tag: "Popular",
+      tagColor: "#E76F51",
+      filterKey: "Beauty & Skin Care",
+    },
+    {
+      category: "Bridal & Occasions",
+      title: "Bridal & Event Makeup",
+      desc: "Exquisite bridal makeovers, festive hair styling & saree draping.",
+      image: "/images/service-bridal.jpg",
+      tag: "Signature",
+      tagColor: "#C1121F",
+      filterKey: "Bridal & Occasions",
+    },
+    {
+      category: "Hand & Feet Care",
+      title: "Deluxe Manicure & Spa",
+      desc: "Soothing rose petal foot soak, nail artistry & hand therapy.",
+      image: "/images/service-spa.jpg",
+      tag: "Relaxing",
+      tagColor: "#2A9D8F",
+      filterKey: "Hand & Feet Care",
+    },
+  ];
 
   return (
-    <section id="services" style={{ background: "#fff" }}>
+    <section className="category-showcase-section">
       <div className="container">
-        <div className="section-header">
-          <span className="section-eyebrow">What We Offer</span>
-          <h2 className="section-title">Our Services</h2>
+        <div className="section-header" style={{ marginBottom: "2.25rem" }}>
+          <span className="section-eyebrow">Explore Specialties</span>
+          <h2 className="section-title">Curated Beauty Experiences</h2>
           <p className="section-subtitle">
-            AN Salon offers a full range of hair, beauty, skin care, and wellness services — for everyone.
+            Tailored hair, skin, and wellness rituals crafted by certified professionals in Kharadi.
           </p>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
-          {categories.map((cat) => (
-            <div key={cat}>
-              <h3 style={{ marginBottom: "1rem", fontSize: "1rem", textTransform: "uppercase", letterSpacing: ".12em", color: "var(--gold-dark)", fontFamily: "var(--font-sans)", fontWeight: 700 }}>{cat}</h3>
-              <div className="services-grid">
-                {services.filter((s) => s.category === cat).map((svc) => (
-                  <div key={svc.id} className="service-card">
-                    {svc.is_placeholder === 1 && (
-                      <span className="placeholder-notice" title="Sample entry — the manager can update details">Sample entry</span>
-                    )}
-                    <div className="service-card-category">{svc.category}</div>
-                    <h3 className="service-card-name">{svc.name}</h3>
-                    <p className="service-card-desc">{svc.description}</p>
-                    <div className="service-card-meta">
-                      {svc.price_inr ? (
-                        <span className="service-card-price">₹{svc.price_inr.toLocaleString("en-IN")}</span>
-                      ) : (
-                        <span className="service-card-duration" style={{ fontStyle: "italic" }}>Price on request</span>
-                      )}
-                      {svc.duration_min && (
-                        <span className="service-card-duration">~{svc.duration_min} min</span>
-                      )}
+        <div className="category-showcase-grid">
+          {highlights.map((h) => (
+            <a
+              key={h.title}
+              href="#services"
+              className="category-showcase-card"
+              onClick={() => onSelectCategory(h.filterKey)}
+            >
+              <img src={h.image} alt={h.title} className="category-showcase-img" />
+              <div className="category-showcase-overlay">
+                <span className="category-showcase-tag" style={{ color: h.tagColor }}>
+                  ✦ {h.tag}
+                </span>
+                <h3 className="category-showcase-title">{h.title}</h3>
+                <p style={{ fontSize: ".825rem", color: "rgba(255,255,255,.8)", marginTop: ".35rem", lineHeight: 1.4 }}>
+                  {h.desc}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Services with Themed Filter Tabs ────────────────────────────────────────
+
+function ServicesSection({
+  services,
+  selectedCategory,
+  onCategoryChange,
+  onSelectService,
+}: {
+  services: Service[];
+  selectedCategory: string;
+  onCategoryChange: (cat: string) => void;
+  onSelectService: (id: number) => void;
+}) {
+  const categories = [
+    { id: "all", label: "All Services", icon: "✦", activeClass: "active-all" },
+    { id: "Hair Styling & Dressing", label: "Hair Styling", icon: "✂️", activeClass: "active-hair" },
+    { id: "Hair Treatments", label: "Treatments", icon: "💆", activeClass: "active-treatment" },
+    { id: "Beauty & Skin Care", label: "Skin & Facials", icon: "✨", activeClass: "active-skin" },
+    { id: "Bridal & Occasions", label: "Bridal & Glamour", icon: "👑", activeClass: "active-bridal" },
+    { id: "Hand & Feet Care", label: "Hand & Feet", icon: "💅", activeClass: "active-spa" },
+  ];
+
+  const filtered = selectedCategory === "all"
+    ? services
+    : services.filter((s) => s.category.toLowerCase().includes(selectedCategory.toLowerCase()) || selectedCategory.toLowerCase().includes(s.category.toLowerCase()));
+
+  const getTagClass = (category: string) => {
+    if (category.includes("Styling")) return "tag-hair";
+    if (category.includes("Treatments")) return "tag-treatment";
+    if (category.includes("Skin") || category.includes("Beauty")) return "tag-skin";
+    if (category.includes("Bridal")) return "tag-bridal";
+    return "tag-spa";
+  };
+
+  return (
+    <section id="services" style={{ background: "#fff", paddingTop: "5rem" }}>
+      <div className="container">
+        <div className="section-header">
+          <span className="section-eyebrow">Service Menu</span>
+          <h2 className="section-title">Signature Hair & Beauty Treatments</h2>
+          <p className="section-subtitle">
+            Every service is tailored to your unique style and needs. Filter by category below to find your perfect treatment.
+          </p>
+        </div>
+
+        {/* Color-Coded Category Filter Tabs */}
+        <div className="category-filter-bar" role="tablist">
+          {categories.map((c) => {
+            const isActive = selectedCategory === c.id;
+            return (
+              <button
+                key={c.id}
+                role="tab"
+                aria-selected={isActive}
+                className={`category-filter-btn ${isActive ? c.activeClass : ""}`}
+                onClick={() => onCategoryChange(c.id)}
+              >
+                <span>{c.icon}</span>
+                {c.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Filtered Services Grid */}
+        <div className="services-grid">
+          {filtered.map((svc) => (
+            <div key={svc.id} className="service-card-themed" data-cat={svc.category}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: ".5rem" }}>
+                <span className={`service-pill-tag ${getTagClass(svc.category)}`}>
+                  {svc.category}
+                </span>
+                {svc.is_placeholder === 1 && (
+                  <span className="placeholder-notice" title="Sample entry — manager can customize in dashboard">
+                    Sample
+                  </span>
+                )}
+              </div>
+
+              <h3 className="service-card-name" style={{ marginTop: ".25rem" }}>{svc.name}</h3>
+              <p className="service-card-desc">{svc.description}</p>
+
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--border)", paddingTop: ".85rem", marginTop: ".5rem" }}>
+                <div>
+                  {svc.price_inr ? (
+                    <span className="service-card-price" style={{ fontSize: "1.25rem", color: "var(--text)", fontWeight: 700 }}>
+                      ₹{svc.price_inr.toLocaleString("en-IN")}
+                    </span>
+                  ) : (
+                    <span style={{ fontSize: ".85rem", color: "var(--text-muted)", fontStyle: "italic" }}>
+                      Price on request
+                    </span>
+                  )}
+                  {svc.duration_min && (
+                    <div style={{ fontSize: ".78rem", color: "var(--text-muted)" }}>
+                      ⏱ ~{svc.duration_min} mins
                     </div>
-                  </div>
-                ))}
+                  )}
+                </div>
+
+                <a
+                  href="#booking"
+                  className="btn btn-outline btn-sm"
+                  style={{ borderRadius: "99px", padding: ".4rem .9rem" }}
+                  onClick={() => onSelectService(svc.id)}
+                >
+                  Book Slot →
+                </a>
               </div>
             </div>
           ))}
         </div>
 
-        <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
+        <div style={{ textAlign: "center", marginTop: "3rem" }}>
           <p style={{ color: "var(--text-muted)", fontSize: ".9rem", marginBottom: "1rem" }}>
-            Prices and durations marked "Sample entry" are placeholders — the salon manager can update them from the dashboard.
-            Call <a href="tel:+918064526928" style={{ color: "var(--gold-dark)", fontWeight: 600 }}>080 6452 6928</a> for current pricing.
+            Prices and durations marked "Sample" can be updated by salon staff.
+            Call <a href="tel:+918064526928" style={{ color: "var(--gold-dark)", fontWeight: 600 }}>080 6452 6928</a> for immediate bookings.
           </p>
-          <a href="#booking" className="btn btn-gold">Book an Appointment</a>
+          <a href="#booking" className="btn btn-gold btn-lg">Book an Appointment</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Why Choose Us ──────────────────────────────────────────────────────────
+
+function TrustSection() {
+  const points = [
+    { icon: "✂️", title: "Master Stylists", desc: "Trained in the latest global hair, beauty, and skin techniques." },
+    { icon: "🌿", title: "Premium Products", desc: "Dermatologically approved, gentle, and high-performance salon care." },
+    { icon: "♿", title: "Inclusive & Accessible", desc: "Wheelchair-accessible entrance, gender-neutral, all welcome." },
+    { icon: "💳", title: "Honest In-Person Pay", desc: "Zero hidden charges. Pay via Card, UPI, or Cash after your service." },
+  ];
+
+  return (
+    <section style={{ background: "var(--warm-white)", padding: "4rem 0" }}>
+      <div className="container">
+        <div className="section-header" style={{ marginBottom: "1.5rem" }}>
+          <span className="section-eyebrow">The AN Salon Promise</span>
+          <h2 className="section-title">Why Kharadi Loves AN Salon</h2>
+        </div>
+        <div className="trust-grid">
+          {points.map((p) => (
+            <div key={p.title} className="trust-card">
+              <div className="trust-icon-box">{p.icon}</div>
+              <h3 style={{ fontSize: "1.05rem", fontWeight: 700, marginBottom: ".5rem" }}>{p.title}</h3>
+              <p style={{ fontSize: ".875rem", color: "var(--text-muted)", lineHeight: 1.6 }}>{p.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -200,61 +409,58 @@ function ServicesSection({ services }: { services: Service[] }) {
 
 function AboutSection() {
   return (
-    <section id="about" style={{ background: "var(--warm-gray)" }}>
+    <section id="about" style={{ background: "var(--warm-gray)", padding: "5rem 0" }}>
       <div className="container">
-        <div className="about-grid">
+        <div className="about-grid" style={{ alignItems: "center" }}>
           <div>
-            <span className="section-eyebrow">About Us</span>
-            <h2 className="section-title">AN Salon — अन सैलून</h2>
+            <span className="section-eyebrow">About AN Salon</span>
+            <h2 className="section-title">Where Beauty Meets Inclusivity</h2>
             <p style={{ color: "var(--text-muted)", lineHeight: 1.8, marginBottom: "1rem" }}>
-              Welcome to <strong>AN Salon</strong>, Pune's premier destination for complete hair, beauty, and wellness transformation. As a luxury unisex salon, we believe that everyone deserves to look and feel like the absolute best version of themselves.
+              Welcome to <strong>AN Salon (अन सैलून)</strong>, Kharadi's premier luxury unisex salon. We believe everyone deserves to feel radiant, confident, and celebrated in their own skin.
             </p>
-            <p style={{ color: "var(--text-muted)", lineHeight: 1.8, marginBottom: "1rem" }}>
-              Whether you are looking for a classic haircut, a bold new look, or flawless long-term beauty solutions, we blend artistry, premium products, and top-tier expertise to deliver an unparalleled salon experience.
-            </p>
-            <p style={{ color: "var(--text-muted)", lineHeight: 1.8 }}>
-              At AN Salon, you aren't just another appointment on our calendar — you are our absolute priority. Our philosophy is anchored in a simple, unwavering commitment: <strong>100% Customer Satisfaction</strong>.
+            <p style={{ color: "var(--text-muted)", lineHeight: 1.8, marginBottom: "1.25rem" }}>
+              From bespoke precision haircuts and transformative keratin therapies to glowing bridal makeovers, our certified artists blend modern aesthetics with gentle, high-grade products.
             </p>
 
-            <div className="about-features">
+            <div className="about-features" style={{ marginTop: "1.5rem" }}>
               <div className="about-feature">
                 <div className="about-feature-icon" aria-hidden="true">🏳️‍🌈</div>
                 <div className="about-feature-text">
                   <h4>LGBTQ+ Friendly</h4>
-                  <p>AN Salon is a welcoming, inclusive space for all clients.</p>
+                  <p>A welcoming, judgement-free sanctuary for every identity.</p>
                 </div>
               </div>
               <div className="about-feature">
                 <div className="about-feature-icon" aria-hidden="true">👩‍💼</div>
                 <div className="about-feature-text">
                   <h4>Women-Owned</h4>
-                  <p>This business is proudly identified as women-owned.</p>
+                  <p>Proudly women-led beauty and wellness enterprise in Pune.</p>
+                </div>
+              </div>
+              <div className="about-feature">
+                <div className="about-feature-icon" aria-hidden="true">♿</div>
+                <div className="about-feature-text">
+                  <h4>Wheelchair Accessible</h4>
+                  <p>Step-free entrance and accessible styling stations.</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <div className="card">
-              <div className="card-body">
-                <h3 style={{ fontSize: "1rem", marginBottom: "1rem", fontFamily: "var(--font-sans)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "var(--text-muted)" }}>Appointments & Walk-ins</h3>
-                <p style={{ color: "var(--text-muted)", fontSize: ".9rem", lineHeight: 1.7 }}>
-                  Appointments are required for scheduled services — use our online booking form below. Walk-ins are also welcome, subject to the salon's current availability. Call us to check before visiting.
-                </p>
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-body">
-                <h3 style={{ fontSize: "1rem", marginBottom: "1rem", fontFamily: "var(--font-sans)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "var(--text-muted)" }}>Payment Methods</h3>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: ".5rem" }}>
-                  {["Credit Card", "Debit Card", "Google Pay", "NFC / Contactless"].map((m) => (
-                    <span key={m} className="badge badge-gold">{m}</span>
-                  ))}
-                </div>
-                <p style={{ color: "var(--text-muted)", fontSize: ".85rem", marginTop: ".75rem" }}>
-                  Payments are accepted in person at the salon only. Online payment is not available.
-                </p>
-              </div>
+          <div className="about-visual-montage">
+            <img
+              src="/images/service-bridal.jpg"
+              alt="Bridal makeover at AN Salon"
+              className="about-montage-img"
+            />
+            <img
+              src="/images/service-hair.jpg"
+              alt="Hair styling at AN Salon"
+              className="about-montage-img"
+              style={{ marginTop: "2rem" }}
+            />
+            <div className="about-badge-exp">
+              <span>✦</span> 100% Satisfaction Guaranteed
             </div>
           </div>
         </div>
@@ -328,10 +534,12 @@ function BookingSection({
   user,
   services,
   settings,
+  selectedServiceId,
 }: {
   user: User;
   services: Service[];
   settings: Record<string, string>;
+  selectedServiceId?: number | null;
 }) {
   const [tab, setTab] = useState<"signin" | "register" | "book">(
     user ? "book" : "signin"
@@ -359,6 +567,12 @@ function BookingSection({
   useEffect(() => {
     if (user) setTab("book");
   }, [user]);
+
+  useEffect(() => {
+    if (selectedServiceId) {
+      setServiceId(String(selectedServiceId));
+    }
+  }, [selectedServiceId]);
 
   useEffect(() => {
     if (!date) return;
@@ -452,9 +666,25 @@ function BookingSection({
               <div className="card-body">
                 {!user ? (
                   <>
-                    <div className="tabs" role="tablist">
-                      <button id="tab-signin" role="tab" aria-selected={tab === "signin"} className={`tab-btn${tab === "signin" ? " active" : ""}`} onClick={() => { setTab("signin"); setError(""); }}>Sign In</button>
-                      <button id="tab-register" role="tab" aria-selected={tab === "register"} className={`tab-btn${tab === "register" ? " active" : ""}`} onClick={() => { setTab("register"); setError(""); }}>Register</button>
+                    <div className="booking-tabs-nav" role="tablist">
+                      <button
+                        id="tab-signin"
+                        role="tab"
+                        aria-selected={tab === "signin"}
+                        className={`booking-tab-pill ${tab === "signin" ? "active-signin" : ""}`}
+                        onClick={() => { setTab("signin"); setError(""); }}
+                      >
+                        🔑 Sign In
+                      </button>
+                      <button
+                        id="tab-register"
+                        role="tab"
+                        aria-selected={tab === "register"}
+                        className={`booking-tab-pill ${tab === "register" ? "active-register" : ""}`}
+                        onClick={() => { setTab("register"); setError(""); }}
+                      >
+                        ✨ Create Account
+                      </button>
                     </div>
 
                     <form onSubmit={handleAuth} noValidate style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -771,15 +1001,34 @@ export default function HomePage() {
     );
   }
 
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
+
   return (
     <>
       <Nav user={user} onLogout={handleLogout} />
       <main className="page-main">
         <Hero user={user} />
-        <ServicesSection services={services} />
+        <CategoryShowcaseSection onSelectCategory={(cat) => setActiveCategory(cat)} />
+        <ServicesSection
+          services={services}
+          selectedCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
+          onSelectService={(id) => {
+            setSelectedServiceId(id);
+            const el = document.getElementById("booking");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }}
+        />
+        <TrustSection />
         <AboutSection />
         <AmenitiesSection settings={settings} />
-        <BookingSection user={user} services={services} settings={settings} />
+        <BookingSection
+          user={user}
+          services={services}
+          settings={settings}
+          selectedServiceId={selectedServiceId}
+        />
         <ContactSection />
         <PrivacySection />
       </main>
