@@ -971,6 +971,8 @@ export default function HomePage() {
   const [services, setServices] = useState<Service[]>([]);
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
 
   const loadData = useCallback(async () => {
     const [meRes, svcsRes, settingsRes] = await Promise.all([
@@ -1000,9 +1002,6 @@ export default function HomePage() {
       </div>
     );
   }
-
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
 
   return (
     <>
