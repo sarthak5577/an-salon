@@ -132,6 +132,21 @@ export async function initDb(): Promise<void> {
         });
       }
     }
+
+    // Seed default manager account if table is empty (e.g. fresh Turso Cloud DB)
+    const mgrCountRes = await db.execute("SELECT COUNT(*) as count FROM managers");
+    const mgrCount = Number(mgrCountRes.rows[0]?.count || 0);
+
+    if (mgrCount === 0) {
+      await db.execute({
+        sql: `INSERT INTO managers (name, email, password_hash) VALUES (?, ?, ?)`,
+        args: [
+          "Salon Manager",
+          "manager@ansalon.in",
+          "$2a$12$GqE5/v0RbtqciNYi.YhMdOzyH9V1iT7Ls4kV02UcERHOU/aZ18Ezi", // Default: ANsalon123
+        ],
+      });
+    }
   })();
 
   return initPromise;
