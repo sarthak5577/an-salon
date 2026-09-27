@@ -43,11 +43,12 @@ export async function initDb(): Promise<void> {
 
     await db.batch([
       `CREATE TABLE IF NOT EXISTS managers (
-        id            INTEGER PRIMARY KEY AUTOINCREMENT,
-        name          TEXT NOT NULL,
-        email         TEXT NOT NULL UNIQUE COLLATE NOCASE,
-        password_hash TEXT NOT NULL,
-        created_at    TEXT NOT NULL DEFAULT (datetime('now'))
+        id               INTEGER PRIMARY KEY AUTOINCREMENT,
+        name             TEXT NOT NULL,
+        email            TEXT NOT NULL UNIQUE COLLATE NOCASE,
+        password_hash    TEXT NOT NULL,
+        password_version INTEGER NOT NULL DEFAULT 0,
+        created_at       TEXT NOT NULL DEFAULT (datetime('now'))
       )`,
       `CREATE TABLE IF NOT EXISTS services (
         id            INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -90,6 +91,14 @@ export async function initDb(): Promise<void> {
       `CREATE INDEX IF NOT EXISTS idx_appt_date ON appointments(appt_date)`,
       `CREATE INDEX IF NOT EXISTS idx_appt_customer ON appointments(customer_id)`
     ], "write");
+
+    // Migration: add password_version column to managers if it doesn't exist yet
+    // (safe to run on existing databases — ALTER TABLE ADD COLUMN is idempotent via try/catch)
+    try {
+      await db.execute("ALTER TABLE managers ADD COLUMN password_version INTEGER NOT NULL DEFAULT 0");
+    } catch {
+      // Column already exists — ignore
+    }
 
     // Seed default business settings
     const defaults = [

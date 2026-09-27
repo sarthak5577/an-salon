@@ -109,7 +109,19 @@ export async function POST(req: NextRequest) {
     `, [result.lastInsertRowid]);
 
     return NextResponse.json({ appointment }, { status: 201 });
-  } catch (err) {
+  } catch (err: any) {
+    // Catch DB UNIQUE constraint violation (race condition: two users booking same slot simultaneously)
+    const msg: string = err?.message || "";
+    if (
+      msg.includes("UNIQUE constraint failed") ||
+      msg.includes("SQLITE_CONSTRAINT") ||
+      msg.includes("LibsqlError")
+    ) {
+      return NextResponse.json(
+        { error: "This time slot was just taken. Please choose a different time." },
+        { status: 409 }
+      );
+    }
     console.error("[appointments-post]", err);
     return NextResponse.json({ error: "Booking failed. Please try again." }, { status: 500 });
   }

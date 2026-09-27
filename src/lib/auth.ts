@@ -5,6 +5,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
+import { queryOne } from "@/lib/db";
 
 const COOKIE_NAME = process.env.SESSION_COOKIE_NAME || "ansalon_session";
 const SECRET = new TextEncoder().encode(
@@ -16,6 +17,7 @@ export type SessionPayload = {
   email: string;
   name: string;
   role: "manager";
+  pwv: number;        // password_version — invalidates old tokens on password change
 };
 
 export type CustomerSessionPayload = {
@@ -88,7 +90,16 @@ export async function requireManagerSession(
 ): Promise<SessionPayload | null> {
   const session = await getSessionFromRequest(req);
   if (!session || session.role !== "manager") return null;
-  return session as SessionPayload;
+  const s = session as SessionPayload;
+
+  // Verify password_version matches DB — invalidates tokens from before a password change
+  const manager = await queryOne<{ password_version: number }>(
+    "SELECT password_version FROM managers WHERE id = ?",
+    [Number(s.sub)]
+  );
+  if (!manager || manager.password_version !== (s.pwv ?? 0)) return null;
+
+  return s;
 }
 
 export async function requireCustomerSession(

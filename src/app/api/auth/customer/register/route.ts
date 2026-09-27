@@ -1,4 +1,3 @@
-// src/app/api/auth/customer/register/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { queryOne, execute } from "@/lib/db";
@@ -6,8 +5,23 @@ import { createToken, setSessionCookie } from "@/lib/auth";
 import {
   validateEmail, validatePassword, validateName, validatePhone, sanitise
 } from "@/lib/validate";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
+
+// Allow 5 registrations per hour per IP
+const LIMIT = 5;
+const WINDOW_MS = 60 * 60 * 1000;
 
 export async function POST(req: NextRequest) {
+  // Rate limiting
+  const ip = getClientIp(req);
+  const rl = rateLimit(`customer-register:${ip}`, LIMIT, WINDOW_MS);
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: `Too many registrations from this network. Please try again in ${rl.retryAfterSec} seconds.` },
+      { status: 429 }
+    );
+  }
+
   try {
     const body = await req.json();
     const name = sanitise(body.name || "");

@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { queryOne, execute } from "@/lib/db";
-import { requireManagerSession } from "@/lib/auth";
+import { requireManagerSession, createToken, setSessionCookie, clearSessionCookie } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   const session = await requireManagerSession(req);
@@ -29,8 +29,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const manager = await queryOne<{ id: number; password_hash: string }>(
-      "SELECT id, password_hash FROM managers WHERE id = ?",
+    const manager = await queryOne<{
+      id: number;
+      password_hash: string;
+      name: string;
+      email: string;
+      password_version: number;
+    }>(
+      "SELECT id, name, email, password_hash, password_version FROM managers WHERE id = ?",
       [Number(session.sub)]
     );
 
@@ -47,11 +53,30 @@ export async function POST(req: NextRequest) {
     }
 
     const newHash = await bcrypt.hash(newPassword, 12);
-    await execute("UPDATE managers SET password_hash = ? WHERE id = ?", [newHash, manager.id]);
+    const newVersion = (manager.password_version || 0) + 1;
+
+    // Update password AND increment version atomically
+    await execute(
+      "UPDATE managers SET password_hash = ?, password_version = ? WHERE id = ?",
+      [newHash, newVersion, manager.id]
+    );
+
+    // Clear the old session cookie so the manager is logged out on all devices
+    await clearSessionCookie();
+
+    // Issue a fresh token with the new password version so this device stays logged in
+    const newToken = await createToken({
+      sub: String(manager.id),
+      email: manager.email,
+      name: manager.name,
+      role: "manager",
+      pwv: newVersion,
+    });
+    await setSessionCookie(newToken);
 
     return NextResponse.json({
       ok: true,
-      message: "Password changed successfully.",
+      message: "Password changed successfully. All other sessions have been invalidated.",
     });
   } catch (err) {
     console.error("[change-password]", err);
